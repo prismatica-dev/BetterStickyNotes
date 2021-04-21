@@ -27,11 +27,12 @@ namespace Better_Sticky_Notes {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StickyNote));
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.CycleTheme = new System.Windows.Forms.Button();
+            this.CreateNote = new System.Windows.Forms.Button();
             this.DeleteNote = new System.Windows.Forms.Button();
             this.NoteText = new System.Windows.Forms.RichTextBox();
             this.ContentsPanel = new System.Windows.Forms.Panel();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.CreateNote = new System.Windows.Forms.Button();
             this.TopPanel.SuspendLayout();
             this.ContentsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -39,6 +40,7 @@ namespace Better_Sticky_Notes {
             // TopPanel
             // 
             this.TopPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.TopPanel.Controls.Add(this.CycleTheme);
             this.TopPanel.Controls.Add(this.CreateNote);
             this.TopPanel.Controls.Add(this.DeleteNote);
             this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -49,6 +51,40 @@ namespace Better_Sticky_Notes {
             this.TopPanel.TabIndex = 0;
             this.TopPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
+            // CycleTheme
+            // 
+            this.CycleTheme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CycleTheme.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CycleTheme.FlatAppearance.BorderSize = 0;
+            this.CycleTheme.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CycleTheme.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CycleTheme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CycleTheme.Font = new System.Drawing.Font("Corbel", 16F);
+            this.CycleTheme.Location = new System.Drawing.Point(0, 0);
+            this.CycleTheme.Name = "CycleTheme";
+            this.CycleTheme.Size = new System.Drawing.Size(50, 50);
+            this.CycleTheme.TabIndex = 2;
+            this.CycleTheme.Text = "\t︙";
+            this.CycleTheme.UseVisualStyleBackColor = false;
+            this.CycleTheme.Click += new System.EventHandler(this.CycleVisualTheme);
+            // 
+            // CreateNote
+            // 
+            this.CreateNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CreateNote.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CreateNote.FlatAppearance.BorderSize = 0;
+            this.CreateNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CreateNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.CreateNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreateNote.Font = new System.Drawing.Font("Corbel", 16F);
+            this.CreateNote.Location = new System.Drawing.Point(148, 0);
+            this.CreateNote.Name = "CreateNote";
+            this.CreateNote.Size = new System.Drawing.Size(50, 50);
+            this.CreateNote.TabIndex = 1;
+            this.CreateNote.Text = "＋";
+            this.CreateNote.UseVisualStyleBackColor = false;
+            this.CreateNote.Click += new System.EventHandler(this.CreateNewNote);
+            // 
             // DeleteNote
             // 
             this.DeleteNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
@@ -57,7 +93,7 @@ namespace Better_Sticky_Notes {
             this.DeleteNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DeleteNote.Font = new System.Drawing.Font("Candara", 16F);
+            this.DeleteNote.Font = new System.Drawing.Font("Corbel", 16F);
             this.DeleteNote.Location = new System.Drawing.Point(198, 0);
             this.DeleteNote.Name = "DeleteNote";
             this.DeleteNote.Size = new System.Drawing.Size(50, 50);
@@ -71,7 +107,7 @@ namespace Better_Sticky_Notes {
             this.NoteText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.NoteText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.NoteText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NoteText.Font = new System.Drawing.Font("Candara", 14F);
+            this.NoteText.Font = new System.Drawing.Font("Corbel", 14F);
             this.NoteText.ForeColor = System.Drawing.Color.White;
             this.NoteText.Location = new System.Drawing.Point(0, 50);
             this.NoteText.Name = "NoteText";
@@ -98,23 +134,6 @@ namespace Better_Sticky_Notes {
             this.SaveTimer.Interval = 1000;
             this.SaveTimer.Tick += new System.EventHandler(this.StartSave);
             // 
-            // CreateNote
-            // 
-            this.CreateNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.CreateNote.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CreateNote.FlatAppearance.BorderSize = 0;
-            this.CreateNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.CreateNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.CreateNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CreateNote.Font = new System.Drawing.Font("Candara", 16F);
-            this.CreateNote.Location = new System.Drawing.Point(148, 0);
-            this.CreateNote.Name = "CreateNote";
-            this.CreateNote.Size = new System.Drawing.Size(50, 50);
-            this.CreateNote.TabIndex = 1;
-            this.CreateNote.Text = "＋";
-            this.CreateNote.UseVisualStyleBackColor = false;
-            this.CreateNote.Click += new System.EventHandler(this.CreateNewNote);
-            // 
             // StickyNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 29F);
@@ -123,7 +142,7 @@ namespace Better_Sticky_Notes {
             this.ClientSize = new System.Drawing.Size(250, 300);
             this.Controls.Add(this.ContentsPanel);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Candara", 18F);
+            this.Font = new System.Drawing.Font("Corbel", 18F);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -150,6 +169,7 @@ namespace Better_Sticky_Notes {
         private System.Windows.Forms.Button DeleteNote;
         private System.Windows.Forms.Timer SaveTimer;
         private System.Windows.Forms.Button CreateNote;
+        private System.Windows.Forms.Button CycleTheme;
         }
     }
 

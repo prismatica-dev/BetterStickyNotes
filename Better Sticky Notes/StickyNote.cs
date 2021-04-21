@@ -26,14 +26,31 @@ namespace Better_Sticky_Notes {
                     if (File.Exists(args)) NoteText.Text = File.ReadAllText(args); 
                     if (File.Exists($"{args.Substring(0, args.Length - 4)}.data")) {
                         string[] NoteData = File.ReadAllText($"{args.Substring(0, args.Length - 4)}.data").Split('\n');
-                        if (NoteData.Length == 4) try {
+                        if (NoteData.Length == 4 || NoteData.Length == 5) try {
                             Width = Convert.ToInt32(NoteData[0]);
                             Height = Convert.ToInt32(NoteData[1]);
                             StartLeft = Convert.ToInt32(NoteData[2]);
-                            StartTop = Convert.ToInt32(NoteData[3]); } catch(Exception) { /*note is broken*/ }}}}}
+                            StartTop = Convert.ToInt32(NoteData[3]);
+                            if (NoteData.Length == 5) // 0.1.0 compatibility
+                            ThemeIndex = Math.Min(Math.Abs(Convert.ToInt32(NoteData[4])), Themes.Length - 1); } catch(Exception) { /*note is broken*/ }}}}}
+
+        public class NoteTheme {
+            public LinearGradientBrush GradientBrush { get; }
+            public NoteTheme(int Red1, int Green1, int Blue1, int Red2, int Green2, int Blue2) {
+                GradientBrush = new LinearGradientBrush(new PointF(0, 0), new PointF(250, 0), Color.FromArgb(Red1, Green1, Blue1), Color.FromArgb(Red2, Green2, Blue2)); }}
+
+        public NoteTheme[] Themes = { 
+            new NoteTheme(255, 165, 238, 237, 114, 255), 
+            new NoteTheme(229, 183, 255, 212, 137, 255),
+            new NoteTheme(164, 201, 255, 82, 152, 255),
+            new NoteTheme(186, 255, 217, 74, 255, 153),
+            new NoteTheme(255, 253, 165, 255, 249, 55),
+            new NoteTheme(255, 220, 174, 255, 170, 57),
+            new NoteTheme(255, 181, 181, 255, 48, 48) };
 
         public int StartLeft = -1;
         public int StartTop = -1;
+        public int ThemeIndex = 0;
         public string NoteDirectory = "";
         public bool PrimaryNote = false;
         public bool NoteShouldntExist = false; // this is needed because otherwise c# dies
@@ -119,8 +136,7 @@ namespace Better_Sticky_Notes {
             Bitmap bitmap = new Bitmap(TopPanel.Width, 50);
             using (Graphics g = Graphics.FromImage(bitmap)) {
                 g.SmoothingMode = SmoothingMode.HighQuality;
-                LinearGradientBrush gb = new LinearGradientBrush(new PointF(0, 0), new PointF(Width, TopPanel.Height), Color.FromArgb(255, 165, 238), Color.FromArgb(237, 114, 255));
-                g.FillRectangle(gb, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
+                g.FillRectangle(Themes[ThemeIndex].GradientBrush, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
             TopPanel.BackgroundImage = bitmap; }
 
         private void StickyNote_Activated(object sender, EventArgs e) {
@@ -141,7 +157,7 @@ namespace Better_Sticky_Notes {
 
         private void NoteShown(object sender, EventArgs e) { 
             if (StartLeft >= 0 && StartTop >= 0) Location = new Point(StartLeft, StartTop);
-            if (NoteShouldntExist) Hide(); }
+            if (NoteShouldntExist) Hide(); NoteText.Focus(); }
 
         private bool Edited = false;
         private void NoteTextUpdated(object sender, EventArgs e) { Edited = true; }
@@ -164,7 +180,7 @@ namespace Better_Sticky_Notes {
                 while (File.Exists($"{RoamingAppData}\\dmbk\\Better Sticky Notes\\{NoteId}.txt")) NoteId = rng.Next(100000000, 1000000000);
                 NoteDirectory = $"{RoamingAppData}\\dmbk\\Better Sticky Notes\\{NoteId}.txt"; }
 
-            File.WriteAllText($"{NoteDirectory.Substring(0, NoteDirectory.Length - 4)}.data", $"{Width}\n{Height}\n{Left}\n{Top}");
+            File.WriteAllText($"{NoteDirectory.Substring(0, NoteDirectory.Length - 4)}.data", $"{Width}\n{Height}\n{Left}\n{Top}\n{ThemeIndex}");
             File.WriteAllText(NoteDirectory, NoteText.Text); }
 
         private void DeleteCurrentNote(object sender, EventArgs e) {
@@ -181,4 +197,13 @@ namespace Better_Sticky_Notes {
         private void NoteUpdated(object sender, EventArgs e) { Edited = true; }
 
         private void CreateNewNote(object sender, EventArgs e) {
-            NoteText.Focus(); new StickyNote("", false).Show(); }}}
+            NoteText.Focus(); new StickyNote("", false).Show(); }
+
+        private void CycleVisualTheme(object sender, EventArgs e) {
+            ThemeIndex++; if (Themes.Length <= ThemeIndex) ThemeIndex = 0; Edited = true;
+            
+            Bitmap bitmap = new Bitmap(TopPanel.Width, 50);
+            using (Graphics g = Graphics.FromImage(bitmap)) {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.FillRectangle(Themes[ThemeIndex].GradientBrush, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
+            TopPanel.BackgroundImage = bitmap; }}}
