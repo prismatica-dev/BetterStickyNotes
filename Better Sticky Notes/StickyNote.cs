@@ -13,7 +13,7 @@ namespace Better_Sticky_Notes {
             PrimaryNote = primary; 
             CreateShortcut();
             try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
-                key.SetValue("AdRework", System.Reflection.Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}
+                key.SetValue("BetterStickyNotes", System.Reflection.Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}
             InitializeComponent();
 
             if (primary) {
