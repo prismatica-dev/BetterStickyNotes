@@ -7,4 +7,4 @@ improved version of the default windows 10 sticky notes
 * Smoother Animations
 * Open Source
 * No Login or Data Uploading (seriously microsoft's sticky notes has a massive terms of use and privacy policy)
-* Private (literally never accesses the internet)
+* Private (literally never accesses the internet except for once to the github api to check for updates and, if available, to download them)
