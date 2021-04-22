@@ -1,19 +1,31 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace Better_Sticky_Notes {
     public partial class StickyNote : Form {
+        // if u are forking the project set this to your fork so the auto-updater checks your repo!
+        // also if in your releases you upload the binary as anything other than 'Better.Sticky.Notes.exe' it will fail to update (or if you have a tag that isn't a valid version)
+        private const string repo = "uDMBK/BetterStickyNotes";
+
         public StickyNote(string args, bool primary) { 
             PrimaryNote = primary; 
-            CreateShortcut();
-            try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
-                key.SetValue("BetterStickyNotes", System.Reflection.Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}
+            string LatestTag = GetLatestTag();
+            if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
+            
+            if (primary) {
+                CreateShortcut();
+                CreateStartMenuShortcut();
+                try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
+                    key.SetValue("BetterStickyNotes", Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}}
             InitializeComponent();
 
             if (primary) {
@@ -32,7 +44,7 @@ namespace Better_Sticky_Notes {
                             StartLeft = Convert.ToInt32(NoteData[2]);
                             StartTop = Convert.ToInt32(NoteData[3]);
                             if (NoteData.Length == 5) // 0.1.0 compatibility
-                            ThemeIndex = Math.Min(Math.Abs(Convert.ToInt32(NoteData[4])), Themes.Length - 1); } catch(Exception) { /*note is broken*/ }}}}}
+                            ThemeIndex = Math.Min(Math.Abs(Convert.ToInt32(NoteData[4])), Themes.Length - 1); } catch(Exception) { /*note is broken but will fix itself*/ }}}}}
 
         public class NoteTheme {
             public LinearGradientBrush GradientBrush { get; }
@@ -117,10 +129,20 @@ namespace Better_Sticky_Notes {
             return notes.ToArray(); }
         private static void CreateShortcut() { 
             try {
-                string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-
                 using (StreamWriter writer = new StreamWriter($"{Environment.GetFolderPath(Environment.SpecialFolder.Startup)}\\BetterStickyNotes.url")) {
-                    string app = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    string app = Assembly.GetExecutingAssembly().Location;
+                    writer.WriteLine("[InternetShortcut]");
+                    writer.WriteLine("URL=file:///" + app);
+                    writer.WriteLine("IconIndex=0");
+                    string icon = app.Replace('\\', '/');
+                    writer.WriteLine("IconFile=" + icon); }} catch(Exception) {}}
+        private static void CreateStartMenuShortcut() { 
+            try {
+                if (!Directory.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.StartMenu)}\\Programs\\dmbk"))
+                    Directory.CreateDirectory($"{Environment.GetFolderPath(Environment.SpecialFolder.StartMenu)}\\Programs\\dmbk");
+
+                using (StreamWriter writer = new StreamWriter($"{Environment.GetFolderPath(Environment.SpecialFolder.StartMenu)}\\Programs\\dmbk\\Better Sticky Notes.url")) {
+                    string app = Assembly.GetExecutingAssembly().Location;
                     writer.WriteLine("[InternetShortcut]");
                     writer.WriteLine("URL=file:///" + app);
                     writer.WriteLine("IconIndex=0");
@@ -158,9 +180,41 @@ namespace Better_Sticky_Notes {
         private void NoteShown(object sender, EventArgs e) { 
             if (StartLeft >= 0 && StartTop >= 0) Location = new Point(StartLeft, StartTop);
             if (NoteShouldntExist) Hide(); NoteText.Focus(); }
+        private static string GetBetween(string Source, string Start, string End) {
+            int StartI, EndI;
+            if (Source.Contains(Start) && Source.Contains(End)) {
+                if (Source.Substring(Source.IndexOf(Start)).Contains(End)) {
+                    try {
+                        StartI = Source.IndexOf(Start, 0) + Start.Length;
+                        EndI = Source.IndexOf(End, StartI);
+                        return Source.Substring(StartI, EndI - StartI); }
+                    catch (ArgumentOutOfRangeException) { return ""; }}
+                else return ""; }
+            else return ""; }
 
         private bool Edited = false;
         private void NoteTextUpdated(object sender, EventArgs e) { Edited = true; }
+        private string GetLatestTag() {
+            try {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://api.github.com/repos/{repo}/releases/latest");
+                request.Method = "GET"; request.UserAgent = "Better Sticky Notes Auto-Update"; request.Accept = "application/json";
+                StreamReader reader = new StreamReader(request.GetResponse().GetResponseStream());
+
+                return GetBetween(reader.ReadToEnd(), "\"tag_name\":\"", "\""); } catch (Exception e) { Console.WriteLine($"{e.Message}"); } 
+            return ""; }
+
+        private void UpdateProgram(string TagName) {
+            try {
+                // download update
+                new WebClient().DownloadFile($"https://github.com/{repo}/releases/download/{TagName}/Better.Sticky.Notes.exe", $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Better Sticky Notes.new.exe");
+
+                // create a batch file to override current version with update then delete itself after 500ms
+                File.WriteAllText($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\update.bat", $"@echo off\nping 127.0.0.1 -n 1 -w 500> nul\ndel \"{Assembly.GetExecutingAssembly().Location}\"\nrename \"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Better Sticky Notes.new.exe\" \"Better Sticky Notes.exe\"\nstart \"\" \"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Better Sticky Notes.exe\"\n(goto) 2>nul & del \"%~f0\"");
+
+                // run the batch file and immediately terminate process
+                Process.Start($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\update.bat");
+                Process.GetCurrentProcess().Kill();
+                } catch (Exception e) { Console.WriteLine($"failed to auto-update due to {e.Message}!"); }}
 
         private void StartSave(object sender, EventArgs e) {
             if (NoteShouldntExist) return;
