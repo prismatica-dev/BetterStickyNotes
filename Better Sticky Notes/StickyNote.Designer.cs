@@ -33,6 +33,7 @@ namespace Better_Sticky_Notes {
             this.NoteText = new System.Windows.Forms.RichTextBox();
             this.ContentsPanel = new System.Windows.Forms.Panel();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
+            this.CloseIntegrity = new System.Windows.Forms.Timer(this.components);
             this.TopPanel.SuspendLayout();
             this.ContentsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -134,6 +135,11 @@ namespace Better_Sticky_Notes {
             this.SaveTimer.Interval = 1000;
             this.SaveTimer.Tick += new System.EventHandler(this.StartSave);
             // 
+            // CloseIntegrity
+            // 
+            this.CloseIntegrity.Interval = 1000;
+            this.CloseIntegrity.Tick += new System.EventHandler(this.CloseIntegrity_Tick);
+            // 
             // StickyNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 29F);
@@ -170,6 +176,7 @@ namespace Better_Sticky_Notes {
         private System.Windows.Forms.Timer SaveTimer;
         private System.Windows.Forms.Button CreateNote;
         private System.Windows.Forms.Button CycleTheme;
+        private System.Windows.Forms.Timer CloseIntegrity;
         }
     }
 

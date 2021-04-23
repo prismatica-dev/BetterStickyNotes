@@ -31,7 +31,8 @@ namespace Better_Sticky_Notes {
             if (primary) {
                 string[] Notes = GetNotes();
                 foreach (string note in Notes) LoadNote(note);
-                if (Notes.Length > 0) NoteShouldntExist = true; }
+                if (Notes.Length > 0) NoteShouldntExist = true;
+                CloseIntegrity.Start(); }
             else { 
                 NoteDirectory = args;
                 if (NoteDirectory.Length > 4) {
@@ -260,4 +261,8 @@ namespace Better_Sticky_Notes {
             using (Graphics g = Graphics.FromImage(bitmap)) {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.FillRectangle(Themes[ThemeIndex].GradientBrush, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
-            TopPanel.BackgroundImage = bitmap; }}}
+            TopPanel.BackgroundImage = bitmap; }
+
+        private void CloseIntegrity_Tick(object sender, EventArgs e) {
+            if (Application.OpenForms.Count <= (NoteShouldntExist?1:0)) Process.GetCurrentProcess().Kill(); // if nothing is open, kill it
+            }}}
