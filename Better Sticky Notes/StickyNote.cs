@@ -18,10 +18,10 @@ namespace Better_Sticky_Notes {
 
         public StickyNote(string args, bool primary) { 
             PrimaryNote = primary; 
-            string LatestTag = GetLatestTag();
-            if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
             
             if (primary) {
+                string LatestTag = GetLatestTag();
+                if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
                 CreateShortcut();
                 CreateStartMenuShortcut();
                 try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
@@ -36,7 +36,7 @@ namespace Better_Sticky_Notes {
             else { 
                 NoteDirectory = args;
                 if (NoteDirectory.Length > 4) {
-                    if (File.Exists(args)) NoteText.Text = File.ReadAllText(args); 
+                    if (File.Exists(args)) try { NoteText.LoadFile(args); } catch (Exception) {}
                     if (File.Exists($"{args.Substring(0, args.Length - 4)}.data")) {
                         string[] NoteData = File.ReadAllText($"{args.Substring(0, args.Length - 4)}.data").Split('\n');
                         if (NoteData.Length == 4 || NoteData.Length == 5) try {
@@ -49,8 +49,12 @@ namespace Better_Sticky_Notes {
 
         public class NoteTheme {
             public LinearGradientBrush GradientBrush { get; }
+            public Color Color1 { get; set; }
+            public Color Color2 { get; set; }
             public NoteTheme(int Red1, int Green1, int Blue1, int Red2, int Green2, int Blue2) {
-                GradientBrush = new LinearGradientBrush(new PointF(0, 0), new PointF(250, 0), Color.FromArgb(Red1, Green1, Blue1), Color.FromArgb(Red2, Green2, Blue2)); }}
+                Color1 = Color.FromArgb(Red1, Green1, Blue1);
+                Color2 = Color.FromArgb(Red2, Green2, Blue2);
+                GradientBrush = new LinearGradientBrush(new PointF(0, 0), new PointF(250, 0), Color1, Color2); }}
 
         public NoteTheme[] Themes = { 
             new NoteTheme(255, 165, 238, 237, 114, 255), 
@@ -198,7 +202,7 @@ namespace Better_Sticky_Notes {
         private string GetLatestTag() {
             try {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://api.github.com/repos/{repo}/releases/latest");
-                request.Method = "GET"; request.UserAgent = "Better Sticky Notes Auto-Update"; request.Accept = "application/json";
+                request.Method = "GET"; request.UserAgent = "uwu"; request.Accept = "application/json";
                 StreamReader reader = new StreamReader(request.GetResponse().GetResponseStream());
 
                 return GetBetween(reader.ReadToEnd(), "\"tag_name\":\"", "\""); } catch (Exception e) { Console.WriteLine($"{e.Message}"); } 
@@ -236,7 +240,7 @@ namespace Better_Sticky_Notes {
                 NoteDirectory = $"{RoamingAppData}\\dmbk\\Better Sticky Notes\\{NoteId}.txt"; }
 
             File.WriteAllText($"{NoteDirectory.Substring(0, NoteDirectory.Length - 4)}.data", $"{Width}\n{Height}\n{Left}\n{Top}\n{ThemeIndex}");
-            File.WriteAllText(NoteDirectory, NoteText.Text); }
+            NoteText.SaveFile(NoteDirectory, RichTextBoxStreamType.RichText); }
 
         private void DeleteCurrentNote(object sender, EventArgs e) {
             NoteText.Focus(); 
@@ -249,20 +253,91 @@ namespace Better_Sticky_Notes {
             if (File.Exists(NoteDirectory)) { File.Delete(NoteDirectory); File.Delete($"{NoteDirectory.Substring(0, NoteDirectory.Length - 4)}.data"); }
             Close(); }
 
-        private void NoteUpdated(object sender, EventArgs e) { Edited = true; }
+        private void NoteUpdated(object sender, EventArgs e) { Edited = true; foreach (Control control in SelectionEditor.Controls) control.Width = (int)Math.Floor(Width / 5f); SelectionEditor.Visible = Height >= 150; }
 
         private void CreateNewNote(object sender, EventArgs e) {
             NoteText.Focus(); new StickyNote("", false).Show(); }
 
         private void CycleVisualTheme(object sender, EventArgs e) {
             ThemeIndex++; if (Themes.Length <= ThemeIndex) ThemeIndex = 0; Edited = true;
-            
+            PathGradientBrush pgb = new PathGradientBrush(new PointF[] { new PointF(0, 0), new PointF(Width, 0), new PointF(Width, 50), new PointF(0, Height) }) {
+                CenterColor = Themes[ThemeIndex].Color1,
+                CenterPoint = new PointF(0, 0),
+                SurroundColors = new Color[] { Themes[ThemeIndex].Color2 }};
+
             Bitmap bitmap = new Bitmap(TopPanel.Width, 50);
             using (Graphics g = Graphics.FromImage(bitmap)) {
                 g.SmoothingMode = SmoothingMode.HighQuality;
-                g.FillRectangle(Themes[ThemeIndex].GradientBrush, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
+                g.FillRectangle(pgb, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
             TopPanel.BackgroundImage = bitmap; }
 
         private void CloseIntegrity_Tick(object sender, EventArgs e) {
-            if (Application.OpenForms.Count <= (NoteShouldntExist?1:0)) Process.GetCurrentProcess().Kill(); // if nothing is open, kill it
-            }}}
+            if (Application.OpenForms.Count <= (NoteShouldntExist?1:0)) Process.GetCurrentProcess().Kill(); /* if nothing is open, kill it */ }
+
+        float aS = 0;
+        bool aR = true;
+        private void AnimationClock_Tick(object sender, EventArgs e) {
+            PathGradientBrush pgb = new PathGradientBrush(new PointF[] { new PointF(0, 0), new PointF(Width, 0), new PointF(Width, 2), new PointF(0, 2) }) {
+                CenterColor = Themes[ThemeIndex].Color1,
+                CenterPoint = new PointF(Width * aS, 0),
+                SurroundColors = new Color[] { Themes[ThemeIndex].Color2 }};
+            pgb.WrapMode = WrapMode.Clamp;
+
+            // fuck this code. seriously. i have no idea why, if there is a god they dont even know why.
+            // unless you perform this shitty method it looks like shit and becomes 1,000x darker. if you use values
+            // that actually make any amount of common fucking sense you still get it. i can't be fucked finding out
+            // why, quite franky i don't want to know why. if you want to edit any part of the following code,
+            // good luck.
+
+            Bitmap bitmap = new Bitmap(TopPanel.Width, 2);
+            Bitmap fullbitmap = new Bitmap(TopPanel.Width, 50);
+            using (Graphics g = Graphics.FromImage(bitmap)) {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.FillRectangle(pgb, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
+
+            using (Graphics g = Graphics.FromImage(fullbitmap)) {
+                g.SmoothingMode = SmoothingMode.HighSpeed;
+                g.CompositingQuality = CompositingQuality.HighSpeed;
+                g.CompositingMode = CompositingMode.SourceCopy;
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.DrawImage(bitmap, new RectangleF(0, -fullbitmap.Height * .5f, fullbitmap.Width, fullbitmap.Height * 2f)); }
+            bitmap.Dispose();
+
+            TopPanel.BackgroundImage = fullbitmap;
+            if (aR) { aS += .05f; if (aS >= 1) aR = false; }
+            else { aS -= .05f; if (aS <= 0) aR = true; }}
+
+        private void NoteText_SelectionChanged(object sender, EventArgs e) {
+            SelectionBolded.Checked = NoteText.SelectionFont.Bold;
+            SelectionItalic.Checked = NoteText.SelectionFont.Italic;
+            SelectionUnderlined.Checked = NoteText.SelectionFont.Underline;
+            SelectionStrikethrough.Checked = NoteText.SelectionFont.Strikeout;
+            SelectionBulleted.Checked = NoteText.SelectionBullet; }
+
+        private void ToggleBold(object sender, EventArgs e) {
+            FontStyle style = NoteText.SelectionFont.Style & ~FontStyle.Bold;
+            if (SelectionBolded.Checked) style |= FontStyle.Bold;
+            NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
+            NoteText.Focus(); }
+
+        private void ToggleItalic(object sender, EventArgs e) {
+            FontStyle style = NoteText.SelectionFont.Style & ~FontStyle.Italic;
+            if (SelectionItalic.Checked) style |= FontStyle.Italic;
+            NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
+            NoteText.Focus(); }
+
+        private void ToggleUnderline(object sender, EventArgs e) {
+            FontStyle style = NoteText.SelectionFont.Style & ~FontStyle.Underline;
+            if (SelectionUnderlined.Checked) style |= FontStyle.Underline;
+            NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
+            NoteText.Focus(); }
+
+        private void ToggleStriketrough(object sender, EventArgs e) {
+            FontStyle style = NoteText.SelectionFont.Style & ~FontStyle.Strikeout;
+            if (SelectionStrikethrough.Checked) style |= FontStyle.Strikeout;
+            NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
+            NoteText.Focus(); }
+
+        private void ToggleBullet(object sender, EventArgs e) {
+            NoteText.SelectionBullet = !NoteText.SelectionBullet;
+            NoteText.Focus(); }}}
