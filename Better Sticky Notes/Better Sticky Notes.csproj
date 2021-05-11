@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedTextEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdvancedTextEditor.Designer.cs">
+      <DependentUpon>AdvancedTextEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="StickyNote.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +63,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdvancedTextEditor.resx">
+      <DependentUpon>AdvancedTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StickyNote.resx">
       <DependentUpon>StickyNote.cs</DependentUpon>
     </EmbeddedResource>

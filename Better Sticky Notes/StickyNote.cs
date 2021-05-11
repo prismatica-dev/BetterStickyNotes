@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -28,6 +29,7 @@ namespace Better_Sticky_Notes {
                     key.SetValue("BetterStickyNotes", Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}}
             InitializeComponent();
 
+            SelectionEditor.Height = 0;
             if (primary) {
                 string[] Notes = GetNotes();
                 foreach (string note in Notes) LoadNote(note);
@@ -166,25 +168,36 @@ namespace Better_Sticky_Notes {
                 g.FillRectangle(Themes[ThemeIndex].GradientBrush, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
             TopPanel.BackgroundImage = bitmap; }
 
+        protected override bool ShowFocusCues => false; // fix border issue
         private void StickyNote_Activated(object sender, EventArgs e) {
             Thread thread = new Thread(new ThreadStart(delegate { try { 
+                foreach (Control control in TopPanel.Controls)
+                    control.Invoke((MethodInvoker)delegate { control.Visible = true; });
                 for (int i = 0; i < 8; i++) { 
-                    TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height += 5; });
+                    if (TopPanel.Height < 50) TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height += 5; });
+                    if (SelectionEditor.Height < 50) SelectionEditor.Invoke((MethodInvoker)delegate { SelectionEditor.Height += 6; });
                     Thread.Sleep(10); } 
-                    TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height = 50; }); } catch (Exception) {}}));
+                    TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height = 50; });
+                    SelectionEditor.Invoke((MethodInvoker)delegate { SelectionEditor.Height = 50; }); } catch (Exception) {}}));
             thread.Start(); }
 
         private void StickyNote_Deactivate(object sender, EventArgs e) {
+            Focus();
             Thread thread = new Thread(new ThreadStart(delegate { try {
                 for (int i = 0; i < 8; i++) { 
                     TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height -= 5; });
+                    SelectionEditor.Invoke((MethodInvoker)delegate { SelectionEditor.Height -= 6; });
                     Thread.Sleep(10); } 
-                    TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height = 10; }); } catch (Exception) {}}));
+                TopPanel.Invoke((MethodInvoker)delegate { TopPanel.Height = 10; });
+                foreach (Control control in TopPanel.Controls)
+                    control.Invoke((MethodInvoker)delegate { control.Visible = false; });
+                SelectionEditor.Invoke((MethodInvoker)delegate { SelectionEditor.Height = 0; }); } catch (Exception) {}}));
             thread.Start(); }
 
         private void NoteShown(object sender, EventArgs e) { 
             if (StartLeft >= 0 && StartTop >= 0) Location = new Point(StartLeft, StartTop);
-            if (NoteShouldntExist) Hide(); NoteText.Focus(); }
+            if (NoteShouldntExist) Hide(); NoteText.Focus(); Thread.Sleep(50);
+            StickyNote_Activated(this, new EventArgs()); }
         private static string GetBetween(string Source, string Start, string End) {
             int StartI, EndI;
             if (Source.Contains(Start) && Source.Contains(End)) {
@@ -253,7 +266,12 @@ namespace Better_Sticky_Notes {
             if (File.Exists(NoteDirectory)) { File.Delete(NoteDirectory); File.Delete($"{NoteDirectory.Substring(0, NoteDirectory.Length - 4)}.data"); }
             Close(); }
 
-        private void NoteUpdated(object sender, EventArgs e) { Edited = true; foreach (Control control in SelectionEditor.Controls) control.Width = (int)Math.Floor(Width / 5f); SelectionEditor.Visible = Height >= 150; }
+        private void NoteUpdated(object sender, EventArgs e) { Edited = true; 
+            foreach (Control control in SelectionEditor.Controls) 
+                if (control.GetType() == typeof(CheckBox)) control.Width = (int)Math.Floor(Width / 6f); 
+                else control.Width = (int)Math.Floor(Width / 12f);
+            
+            SelectionEditor.Visible = Height >= 150; }
 
         private void CreateNewNote(object sender, EventArgs e) {
             NoteText.Focus(); new StickyNote("", false).Show(); }
@@ -277,42 +295,41 @@ namespace Better_Sticky_Notes {
         float aS = 0;
         bool aR = true;
         private void AnimationClock_Tick(object sender, EventArgs e) {
-            PathGradientBrush pgb = new PathGradientBrush(new PointF[] { new PointF(0, 0), new PointF(Width, 0), new PointF(Width, 2), new PointF(0, 2) }) {
-                CenterColor = Themes[ThemeIndex].Color1,
-                CenterPoint = new PointF(Width * aS, 0),
-                SurroundColors = new Color[] { Themes[ThemeIndex].Color2 }};
-            pgb.WrapMode = WrapMode.Clamp;
+            // this method is bad, but was way, way, way worse. gradient brush for some reason makes the top segment slighlty darker which makes scaling difficult
 
-            // fuck this code. seriously. i have no idea why, if there is a god they dont even know why.
-            // unless you perform this shitty method it looks like shit and becomes 1,000x darker. if you use values
-            // that actually make any amount of common fucking sense you still get it. i can't be fucked finding out
-            // why, quite franky i don't want to know why. if you want to edit any part of the following code,
-            // good luck.
+            // handle unneeded bitmap so the GC doesn't have to, not really a memory leak, but prevents memory spikes
+            if (TopPanel.BackgroundImage != null) TopPanel.BackgroundImage.Dispose();
 
-            Bitmap bitmap = new Bitmap(TopPanel.Width, 2);
             Bitmap fullbitmap = new Bitmap(TopPanel.Width, 50);
-            using (Graphics g = Graphics.FromImage(bitmap)) {
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.FillRectangle(pgb, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
+            using (Bitmap bitmap = new Bitmap(TopPanel.Width, 2)) {
+                using (Graphics g = Graphics.FromImage(bitmap)) {
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    PathGradientBrush pgb = new PathGradientBrush(new PointF[] { new PointF(0, 0), new PointF(Width, 0), new PointF(Width, 2), new PointF(0, 2) }) { CenterColor = Themes[ThemeIndex].Color1, CenterPoint = new PointF(Width * aS, 0), SurroundColors = new Color[] { Themes[ThemeIndex].Color2 }};
+                    pgb.WrapMode = WrapMode.Clamp;
+                    g.FillRectangle(pgb, new RectangleF(0, 0, bitmap.Width, bitmap.Height)); }
 
-            using (Graphics g = Graphics.FromImage(fullbitmap)) {
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-                g.CompositingQuality = CompositingQuality.HighSpeed;
-                g.CompositingMode = CompositingMode.SourceCopy;
-                g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(bitmap, new RectangleF(0, -fullbitmap.Height * .5f, fullbitmap.Width, fullbitmap.Height * 2f)); }
-            bitmap.Dispose();
-
+                using (Graphics g = Graphics.FromImage(fullbitmap)) {
+                    g.SmoothingMode = SmoothingMode.HighSpeed;
+                    g.CompositingQuality = CompositingQuality.HighSpeed;
+                    g.CompositingMode = CompositingMode.SourceCopy;
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    Bitmap temp = bitmap.Clone(new RectangleF(0, 1, bitmap.Width, 1), bitmap.PixelFormat);
+                    g.DrawImage(temp, new RectangleF(0, 0, fullbitmap.Width, fullbitmap.Height));
+                    g.DrawImage(temp, new RectangleF(0, fullbitmap.Height / 2, fullbitmap.Width, fullbitmap.Height));
+                    temp.Dispose();
+                    /*g.DrawImage(bitmap, new RectangleF(0, -fullbitmap.Height * .5f, fullbitmap.Width, fullbitmap.Height * 2f));*/ }}
             TopPanel.BackgroundImage = fullbitmap;
-            if (aR) { aS += .05f; if (aS >= 1) aR = false; }
-            else { aS -= .05f; if (aS <= 0) aR = true; }}
+
+            if (aR) { aS += .075f; if (aS >= 1) aR = false; }
+            else { aS -= .075f; if (aS <= 0) aR = true; }}
 
         private void NoteText_SelectionChanged(object sender, EventArgs e) {
             SelectionBolded.Checked = NoteText.SelectionFont.Bold;
             SelectionItalic.Checked = NoteText.SelectionFont.Italic;
             SelectionUnderlined.Checked = NoteText.SelectionFont.Underline;
             SelectionStrikethrough.Checked = NoteText.SelectionFont.Strikeout;
-            SelectionBulleted.Checked = NoteText.SelectionBullet; }
+            SelectionBulleted.Checked = NoteText.SelectionBullet;
+            SelectionColour.BackColor = NoteText.SelectionColor; }
 
         private void ToggleBold(object sender, EventArgs e) {
             FontStyle style = NoteText.SelectionFont.Style & ~FontStyle.Bold;
@@ -340,4 +357,22 @@ namespace Better_Sticky_Notes {
 
         private void ToggleBullet(object sender, EventArgs e) {
             NoteText.SelectionBullet = !NoteText.SelectionBullet;
-            NoteText.Focus(); }}}
+            NoteText.Focus(); }
+
+        private void StartAdvTextEditing(object sender, EventArgs e) {
+            if (MessageBox.Show("the advanced text editor is not complete in any way and does not function. it is highly recommended you do not continue.\n\ncontinue anyway?", "open incomplete advanced text editor?", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            AdvancedTextEditor editor = new AdvancedTextEditor();
+            if (editor.ShowDialog() != DialogResult.OK) return; }
+
+        private void ChangeColour(object sender, EventArgs e) {
+            ColorDialog cd = new ColorDialog { FullOpen = true, AnyColor = true };
+            if (cd.ShowDialog() == DialogResult.OK) {
+                SelectionColour.BackColor = cd.Color;
+                NoteText.SelectionColor = cd.Color; }}
+
+        private void ChangeBackColour(object sender, EventArgs e) {
+            ColorDialog cd = new ColorDialog { FullOpen = true, AnyColor = true };
+            if (cd.ShowDialog() == DialogResult.OK) {
+                SelectionBackColour.BackColor = cd.Color;
+                NoteText.SelectionBackColor = cd.Color; }}}}
+    

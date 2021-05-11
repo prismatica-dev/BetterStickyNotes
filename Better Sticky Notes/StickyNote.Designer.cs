@@ -27,20 +27,24 @@ namespace Better_Sticky_Notes {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StickyNote));
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.AntiFlickerButton = new System.Windows.Forms.Button();
+            this.AdvancedTextEditing = new System.Windows.Forms.Button();
             this.CycleTheme = new System.Windows.Forms.Button();
             this.CreateNote = new System.Windows.Forms.Button();
             this.DeleteNote = new System.Windows.Forms.Button();
             this.NoteText = new System.Windows.Forms.RichTextBox();
             this.ContentsPanel = new System.Windows.Forms.Panel();
+            this.SelectionEditor = new System.Windows.Forms.Panel();
+            this.SelectionBackColour = new System.Windows.Forms.Panel();
+            this.SelectionColour = new System.Windows.Forms.Panel();
+            this.SelectionBulleted = new System.Windows.Forms.CheckBox();
+            this.SelectionStrikethrough = new System.Windows.Forms.CheckBox();
+            this.SelectionUnderlined = new System.Windows.Forms.CheckBox();
+            this.SelectionItalic = new System.Windows.Forms.CheckBox();
+            this.SelectionBolded = new System.Windows.Forms.CheckBox();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.CloseIntegrity = new System.Windows.Forms.Timer(this.components);
             this.AnimationClock = new System.Windows.Forms.Timer(this.components);
-            this.SelectionEditor = new System.Windows.Forms.Panel();
-            this.SelectionUnderlined = new System.Windows.Forms.CheckBox();
-            this.SelectionBolded = new System.Windows.Forms.CheckBox();
-            this.SelectionItalic = new System.Windows.Forms.CheckBox();
-            this.SelectionStrikethrough = new System.Windows.Forms.CheckBox();
-            this.SelectionBulleted = new System.Windows.Forms.CheckBox();
             this.TopPanel.SuspendLayout();
             this.ContentsPanel.SuspendLayout();
             this.SelectionEditor.SuspendLayout();
@@ -49,6 +53,8 @@ namespace Better_Sticky_Notes {
             // TopPanel
             // 
             this.TopPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.TopPanel.Controls.Add(this.AntiFlickerButton);
+            this.TopPanel.Controls.Add(this.AdvancedTextEditing);
             this.TopPanel.Controls.Add(this.CycleTheme);
             this.TopPanel.Controls.Add(this.CreateNote);
             this.TopPanel.Controls.Add(this.DeleteNote);
@@ -56,14 +62,51 @@ namespace Better_Sticky_Notes {
             this.TopPanel.Location = new System.Drawing.Point(0, 0);
             this.TopPanel.MaximumSize = new System.Drawing.Size(0, 50);
             this.TopPanel.Name = "TopPanel";
-            this.TopPanel.Size = new System.Drawing.Size(248, 50);
+            this.TopPanel.Size = new System.Drawing.Size(243, 50);
             this.TopPanel.TabIndex = 0;
             this.TopPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
+            // 
+            // AntiFlickerButton
+            // 
+            this.AntiFlickerButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AntiFlickerButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AntiFlickerButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AntiFlickerButton.FlatAppearance.BorderSize = 0;
+            this.AntiFlickerButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AntiFlickerButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AntiFlickerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AntiFlickerButton.Font = new System.Drawing.Font("Corbel", 16F);
+            this.AntiFlickerButton.Location = new System.Drawing.Point(100, 0);
+            this.AntiFlickerButton.Name = "AntiFlickerButton";
+            this.AntiFlickerButton.Size = new System.Drawing.Size(43, 50);
+            this.AntiFlickerButton.TabIndex = 3;
+            this.AntiFlickerButton.Text = "\t";
+            this.AntiFlickerButton.UseVisualStyleBackColor = false;
+            this.AntiFlickerButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
+            // 
+            // AdvancedTextEditing
+            // 
+            this.AdvancedTextEditing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AdvancedTextEditing.Dock = System.Windows.Forms.DockStyle.Left;
+            this.AdvancedTextEditing.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AdvancedTextEditing.FlatAppearance.BorderSize = 0;
+            this.AdvancedTextEditing.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AdvancedTextEditing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.AdvancedTextEditing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AdvancedTextEditing.Font = new System.Drawing.Font("Corbel", 16F);
+            this.AdvancedTextEditing.Location = new System.Drawing.Point(50, 0);
+            this.AdvancedTextEditing.Name = "AdvancedTextEditing";
+            this.AdvancedTextEditing.Size = new System.Drawing.Size(50, 50);
+            this.AdvancedTextEditing.TabIndex = 4;
+            this.AdvancedTextEditing.Text = "֎";
+            this.AdvancedTextEditing.UseVisualStyleBackColor = false;
+            this.AdvancedTextEditing.Click += new System.EventHandler(this.StartAdvTextEditing);
             // 
             // CycleTheme
             // 
             this.CycleTheme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CycleTheme.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CycleTheme.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CycleTheme.FlatAppearance.BorderSize = 0;
             this.CycleTheme.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CycleTheme.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
@@ -73,7 +116,7 @@ namespace Better_Sticky_Notes {
             this.CycleTheme.Name = "CycleTheme";
             this.CycleTheme.Size = new System.Drawing.Size(50, 50);
             this.CycleTheme.TabIndex = 2;
-            this.CycleTheme.Text = "\t︙";
+            this.CycleTheme.Text = "︙";
             this.CycleTheme.UseVisualStyleBackColor = false;
             this.CycleTheme.Click += new System.EventHandler(this.CycleVisualTheme);
             // 
@@ -81,12 +124,13 @@ namespace Better_Sticky_Notes {
             // 
             this.CreateNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CreateNote.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CreateNote.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CreateNote.FlatAppearance.BorderSize = 0;
             this.CreateNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CreateNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.CreateNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CreateNote.Font = new System.Drawing.Font("Corbel", 16F);
-            this.CreateNote.Location = new System.Drawing.Point(148, 0);
+            this.CreateNote.Location = new System.Drawing.Point(143, 0);
             this.CreateNote.Name = "CreateNote";
             this.CreateNote.Size = new System.Drawing.Size(50, 50);
             this.CreateNote.TabIndex = 1;
@@ -98,12 +142,13 @@ namespace Better_Sticky_Notes {
             // 
             this.DeleteNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.Dock = System.Windows.Forms.DockStyle.Right;
+            this.DeleteNote.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.FlatAppearance.BorderSize = 0;
             this.DeleteNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.DeleteNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteNote.Font = new System.Drawing.Font("Corbel", 16F);
-            this.DeleteNote.Location = new System.Drawing.Point(198, 0);
+            this.DeleteNote.Location = new System.Drawing.Point(193, 0);
             this.DeleteNote.Name = "DeleteNote";
             this.DeleteNote.Size = new System.Drawing.Size(50, 50);
             this.DeleteNote.TabIndex = 0;
@@ -120,7 +165,7 @@ namespace Better_Sticky_Notes {
             this.NoteText.ForeColor = System.Drawing.Color.White;
             this.NoteText.Location = new System.Drawing.Point(0, 50);
             this.NoteText.Name = "NoteText";
-            this.NoteText.Size = new System.Drawing.Size(248, 198);
+            this.NoteText.Size = new System.Drawing.Size(243, 193);
             this.NoteText.TabIndex = 1;
             this.NoteText.Text = "";
             this.NoteText.SelectionChanged += new System.EventHandler(this.NoteText_SelectionChanged);
@@ -134,98 +179,67 @@ namespace Better_Sticky_Notes {
             this.ContentsPanel.Controls.Add(this.NoteText);
             this.ContentsPanel.Controls.Add(this.TopPanel);
             this.ContentsPanel.Controls.Add(this.SelectionEditor);
-            this.ContentsPanel.Location = new System.Drawing.Point(1, 1);
+            this.ContentsPanel.Location = new System.Drawing.Point(3, 3);
             this.ContentsPanel.Name = "ContentsPanel";
-            this.ContentsPanel.Size = new System.Drawing.Size(248, 298);
+            this.ContentsPanel.Size = new System.Drawing.Size(243, 293);
             this.ContentsPanel.TabIndex = 2;
-            // 
-            // SaveTimer
-            // 
-            this.SaveTimer.Enabled = true;
-            this.SaveTimer.Interval = 1000;
-            this.SaveTimer.Tick += new System.EventHandler(this.StartSave);
-            // 
-            // CloseIntegrity
-            // 
-            this.CloseIntegrity.Interval = 1000;
-            this.CloseIntegrity.Tick += new System.EventHandler(this.CloseIntegrity_Tick);
-            // 
-            // AnimationClock
-            // 
-            this.AnimationClock.Enabled = true;
-            this.AnimationClock.Interval = 80;
-            this.AnimationClock.Tick += new System.EventHandler(this.AnimationClock_Tick);
             // 
             // SelectionEditor
             // 
             this.SelectionEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.SelectionEditor.Controls.Add(this.SelectionBackColour);
+            this.SelectionEditor.Controls.Add(this.SelectionColour);
             this.SelectionEditor.Controls.Add(this.SelectionBulleted);
             this.SelectionEditor.Controls.Add(this.SelectionStrikethrough);
             this.SelectionEditor.Controls.Add(this.SelectionUnderlined);
             this.SelectionEditor.Controls.Add(this.SelectionItalic);
             this.SelectionEditor.Controls.Add(this.SelectionBolded);
             this.SelectionEditor.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.SelectionEditor.Location = new System.Drawing.Point(0, 248);
+            this.SelectionEditor.Location = new System.Drawing.Point(0, 243);
             this.SelectionEditor.Name = "SelectionEditor";
-            this.SelectionEditor.Size = new System.Drawing.Size(248, 50);
+            this.SelectionEditor.Size = new System.Drawing.Size(243, 50);
             this.SelectionEditor.TabIndex = 2;
             // 
-            // SelectionUnderlined
+            // SelectionBackColour
             // 
-            this.SelectionUnderlined.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectionUnderlined.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.SelectionUnderlined.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SelectionUnderlined.FlatAppearance.BorderSize = 0;
-            this.SelectionUnderlined.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionUnderlined.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionUnderlined.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SelectionUnderlined.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SelectionUnderlined.Location = new System.Drawing.Point(80, 0);
-            this.SelectionUnderlined.Name = "SelectionUnderlined";
-            this.SelectionUnderlined.Size = new System.Drawing.Size(40, 50);
-            this.SelectionUnderlined.TabIndex = 0;
-            this.SelectionUnderlined.Text = "u";
-            this.SelectionUnderlined.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SelectionUnderlined.UseVisualStyleBackColor = false;
-            this.SelectionUnderlined.Click += new System.EventHandler(this.ToggleUnderline);
+            this.SelectionBackColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.SelectionBackColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SelectionBackColour.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SelectionBackColour.Location = new System.Drawing.Point(222, 0);
+            this.SelectionBackColour.Name = "SelectionBackColour";
+            this.SelectionBackColour.Size = new System.Drawing.Size(21, 50);
+            this.SelectionBackColour.TabIndex = 6;
+            this.SelectionBackColour.Click += new System.EventHandler(this.ChangeBackColour);
             // 
-            // SelectionBolded
+            // SelectionColour
             // 
-            this.SelectionBolded.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectionBolded.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.SelectionBolded.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SelectionBolded.FlatAppearance.BorderSize = 0;
-            this.SelectionBolded.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionBolded.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionBolded.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SelectionBolded.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SelectionBolded.Location = new System.Drawing.Point(0, 0);
-            this.SelectionBolded.Name = "SelectionBolded";
-            this.SelectionBolded.Size = new System.Drawing.Size(40, 50);
-            this.SelectionBolded.TabIndex = 1;
-            this.SelectionBolded.Text = "B";
-            this.SelectionBolded.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SelectionBolded.UseVisualStyleBackColor = false;
-            this.SelectionBolded.Click += new System.EventHandler(this.ToggleBold);
+            this.SelectionColour.BackColor = System.Drawing.Color.White;
+            this.SelectionColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SelectionColour.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SelectionColour.Location = new System.Drawing.Point(200, 0);
+            this.SelectionColour.Name = "SelectionColour";
+            this.SelectionColour.Size = new System.Drawing.Size(22, 50);
+            this.SelectionColour.TabIndex = 5;
+            this.SelectionColour.Click += new System.EventHandler(this.ChangeColour);
             // 
-            // SelectionItalic
+            // SelectionBulleted
             // 
-            this.SelectionItalic.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectionItalic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.SelectionItalic.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SelectionItalic.FlatAppearance.BorderSize = 0;
-            this.SelectionItalic.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionItalic.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionItalic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SelectionItalic.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SelectionItalic.Location = new System.Drawing.Point(40, 0);
-            this.SelectionItalic.Name = "SelectionItalic";
-            this.SelectionItalic.Size = new System.Drawing.Size(40, 50);
-            this.SelectionItalic.TabIndex = 2;
-            this.SelectionItalic.Text = "i";
-            this.SelectionItalic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SelectionItalic.UseVisualStyleBackColor = false;
-            this.SelectionItalic.Click += new System.EventHandler(this.ToggleItalic);
+            this.SelectionBulleted.Appearance = System.Windows.Forms.Appearance.Button;
+            this.SelectionBulleted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.SelectionBulleted.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SelectionBulleted.FlatAppearance.BorderSize = 0;
+            this.SelectionBulleted.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionBulleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionBulleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SelectionBulleted.Font = new System.Drawing.Font("Corbel", 14F);
+            this.SelectionBulleted.Location = new System.Drawing.Point(160, 0);
+            this.SelectionBulleted.Name = "SelectionBulleted";
+            this.SelectionBulleted.Size = new System.Drawing.Size(40, 50);
+            this.SelectionBulleted.TabIndex = 4;
+            this.SelectionBulleted.Text = "•";
+            this.SelectionBulleted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectionBulleted.UseVisualStyleBackColor = false;
+            this.SelectionBulleted.Click += new System.EventHandler(this.ToggleBullet);
             // 
             // SelectionStrikethrough
             // 
@@ -246,24 +260,79 @@ namespace Better_Sticky_Notes {
             this.SelectionStrikethrough.UseVisualStyleBackColor = false;
             this.SelectionStrikethrough.Click += new System.EventHandler(this.ToggleStriketrough);
             // 
-            // SelectionBulleted
+            // SelectionUnderlined
             // 
-            this.SelectionBulleted.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectionBulleted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.SelectionBulleted.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SelectionBulleted.FlatAppearance.BorderSize = 0;
-            this.SelectionBulleted.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionBulleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.SelectionBulleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SelectionBulleted.Font = new System.Drawing.Font("Corbel", 14F);
-            this.SelectionBulleted.Location = new System.Drawing.Point(160, 0);
-            this.SelectionBulleted.Name = "SelectionBulleted";
-            this.SelectionBulleted.Size = new System.Drawing.Size(40, 50);
-            this.SelectionBulleted.TabIndex = 4;
-            this.SelectionBulleted.Text = "•";
-            this.SelectionBulleted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SelectionBulleted.UseVisualStyleBackColor = false;
-            this.SelectionBulleted.Click += new System.EventHandler(this.ToggleBullet);
+            this.SelectionUnderlined.Appearance = System.Windows.Forms.Appearance.Button;
+            this.SelectionUnderlined.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.SelectionUnderlined.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SelectionUnderlined.FlatAppearance.BorderSize = 0;
+            this.SelectionUnderlined.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionUnderlined.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionUnderlined.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SelectionUnderlined.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectionUnderlined.Location = new System.Drawing.Point(80, 0);
+            this.SelectionUnderlined.Name = "SelectionUnderlined";
+            this.SelectionUnderlined.Size = new System.Drawing.Size(40, 50);
+            this.SelectionUnderlined.TabIndex = 0;
+            this.SelectionUnderlined.Text = "u";
+            this.SelectionUnderlined.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectionUnderlined.UseVisualStyleBackColor = false;
+            this.SelectionUnderlined.Click += new System.EventHandler(this.ToggleUnderline);
+            // 
+            // SelectionItalic
+            // 
+            this.SelectionItalic.Appearance = System.Windows.Forms.Appearance.Button;
+            this.SelectionItalic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.SelectionItalic.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SelectionItalic.FlatAppearance.BorderSize = 0;
+            this.SelectionItalic.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionItalic.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionItalic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SelectionItalic.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectionItalic.Location = new System.Drawing.Point(40, 0);
+            this.SelectionItalic.Name = "SelectionItalic";
+            this.SelectionItalic.Size = new System.Drawing.Size(40, 50);
+            this.SelectionItalic.TabIndex = 2;
+            this.SelectionItalic.Text = "i";
+            this.SelectionItalic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectionItalic.UseVisualStyleBackColor = false;
+            this.SelectionItalic.Click += new System.EventHandler(this.ToggleItalic);
+            // 
+            // SelectionBolded
+            // 
+            this.SelectionBolded.Appearance = System.Windows.Forms.Appearance.Button;
+            this.SelectionBolded.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.SelectionBolded.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SelectionBolded.FlatAppearance.BorderSize = 0;
+            this.SelectionBolded.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionBolded.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.SelectionBolded.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SelectionBolded.Font = new System.Drawing.Font("Corbel", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectionBolded.Location = new System.Drawing.Point(0, 0);
+            this.SelectionBolded.Name = "SelectionBolded";
+            this.SelectionBolded.Size = new System.Drawing.Size(40, 50);
+            this.SelectionBolded.TabIndex = 1;
+            this.SelectionBolded.Text = "B";
+            this.SelectionBolded.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectionBolded.UseVisualStyleBackColor = false;
+            this.SelectionBolded.Click += new System.EventHandler(this.ToggleBold);
+            // 
+            // SaveTimer
+            // 
+            this.SaveTimer.Enabled = true;
+            this.SaveTimer.Interval = 1000;
+            this.SaveTimer.Tick += new System.EventHandler(this.StartSave);
+            // 
+            // CloseIntegrity
+            // 
+            this.CloseIntegrity.Interval = 1000;
+            this.CloseIntegrity.Tick += new System.EventHandler(this.CloseIntegrity_Tick);
+            // 
+            // AnimationClock
+            // 
+            this.AnimationClock.Enabled = true;
+            this.AnimationClock.Interval = 120;
+            this.AnimationClock.Tick += new System.EventHandler(this.AnimationClock_Tick);
             // 
             // StickyNote
             // 
@@ -310,6 +379,10 @@ namespace Better_Sticky_Notes {
         private System.Windows.Forms.CheckBox SelectionBolded;
         private System.Windows.Forms.CheckBox SelectionStrikethrough;
         private System.Windows.Forms.CheckBox SelectionBulleted;
+        private System.Windows.Forms.Button AntiFlickerButton;
+        private System.Windows.Forms.Button AdvancedTextEditing;
+        private System.Windows.Forms.Panel SelectionColour;
+        private System.Windows.Forms.Panel SelectionBackColour;
         }
     }
 
