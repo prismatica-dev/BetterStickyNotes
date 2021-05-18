@@ -24,9 +24,9 @@ namespace Better_Sticky_Notes {
                 string LatestTag = GetLatestTag();
                 if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
                 CreateShortcut();
-                CreateStartMenuShortcut();
-                try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
-                    key.SetValue("BetterStickyNotes", Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}}
+                CreateStartMenuShortcut(); }
+                //try { using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
+                //    key.SetValue("BetterStickyNotes", Assembly.GetExecutingAssembly().Location); }} catch (Exception) {}}
             InitializeComponent();
 
             SelectionEditor.Height = 0;
