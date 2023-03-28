@@ -375,6 +375,9 @@ namespace Better_Sticky_Notes {
                     break;
                 case FontStyle.Underline:
                     if (SelectionUnderlined.Checked) style |= Style;
+                    break;
+                case FontStyle.Strikeout:
+                    if (SelectionStrikethrough.Checked) style |= Style;
                     break; }
 
             NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
