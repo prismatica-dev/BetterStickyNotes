@@ -25,10 +25,12 @@ namespace Better_Sticky_Notes {
             PrimaryNote = primary;
 
             if (primary) {
-                string LatestTag = GetLatestTag();
-                if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
-                CreateShortcut();
-                CreateStartMenuShortcut(); }
+                try {
+                    string LatestTag = GetLatestTag();
+                    if (primary && LatestTag.Length > 0) if (Assembly.GetExecutingAssembly().GetName().Version < Version.Parse(LatestTag)) UpdateProgram(LatestTag);
+                    CreateShortcut();
+                    CreateStartMenuShortcut();
+                } catch {}}
             InitializeComponent();
 
             SelectionEditor.Height = 0;
