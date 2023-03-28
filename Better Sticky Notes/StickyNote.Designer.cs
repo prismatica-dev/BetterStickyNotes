@@ -484,7 +484,7 @@ namespace Better_Sticky_Notes {
             // AnimationClock
             // 
             this.AnimationClock.Enabled = true;
-            this.AnimationClock.Interval = 120;
+            this.AnimationClock.Interval = 60;
             this.AnimationClock.Tick += new System.EventHandler(this.AnimationClock_Tick);
             // 
             // StickyNote

@@ -352,7 +352,7 @@ namespace Better_Sticky_Notes {
                     AnimationCache.Add(new Tuple<Color, Color, float>(CurrentTheme.Color1, CurrentTheme.Color2, aS), fullbitmap);
                     TopPanel.BackgroundImage = fullbitmap;
                 } else TopPanel.BackgroundImage = AnimationCache[new Tuple<Color, Color, float>(CurrentTheme.Color1, CurrentTheme.Color2, aS)];
-                if (aR) { aS += .1f; aR = aS < 1; } else { aS -= .1f; aR = aS < .1f; }
+                if (aR) { aS += .05f; aR = aS < 1; } else { aS -= .05f; aR = aS < .05f; }
             } catch {}}
 
         private void NoteText_SelectionChanged(object sender, EventArgs e) {
