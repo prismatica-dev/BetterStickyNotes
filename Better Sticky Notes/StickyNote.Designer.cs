@@ -28,12 +28,23 @@ namespace Better_Sticky_Notes {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StickyNote));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.AntiFlickerButton = new System.Windows.Forms.Button();
-            this.AdvancedTextEditing = new System.Windows.Forms.Button();
+            this.MinimiseNote = new System.Windows.Forms.Button();
             this.CycleTheme = new System.Windows.Forms.Button();
             this.CreateNote = new System.Windows.Forms.Button();
             this.DeleteNote = new System.Windows.Forms.Button();
             this.NoteText = new System.Windows.Forms.RichTextBox();
             this.ContentsPanel = new System.Windows.Forms.Panel();
+            this.TopSubPanel = new System.Windows.Forms.Panel();
+            this.CustomTheme2 = new System.Windows.Forms.Button();
+            this.CustomTheme1 = new System.Windows.Forms.Button();
+            this.DividerPreset = new System.Windows.Forms.Panel();
+            this.Preset7 = new System.Windows.Forms.PictureBox();
+            this.Preset6 = new System.Windows.Forms.PictureBox();
+            this.Preset5 = new System.Windows.Forms.PictureBox();
+            this.Preset4 = new System.Windows.Forms.PictureBox();
+            this.Preset3 = new System.Windows.Forms.PictureBox();
+            this.Preset2 = new System.Windows.Forms.PictureBox();
+            this.Preset1 = new System.Windows.Forms.PictureBox();
             this.SelectionEditor = new System.Windows.Forms.Panel();
             this.SelectionBackColour = new System.Windows.Forms.Panel();
             this.SelectionColour = new System.Windows.Forms.Panel();
@@ -47,14 +58,23 @@ namespace Better_Sticky_Notes {
             this.AnimationClock = new System.Windows.Forms.Timer(this.components);
             this.TopPanel.SuspendLayout();
             this.ContentsPanel.SuspendLayout();
+            this.TopSubPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset1)).BeginInit();
             this.SelectionEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // TopPanel
             // 
+            this.TopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.TopPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.TopPanel.Controls.Add(this.AntiFlickerButton);
-            this.TopPanel.Controls.Add(this.AdvancedTextEditing);
+            this.TopPanel.Controls.Add(this.MinimiseNote);
             this.TopPanel.Controls.Add(this.CycleTheme);
             this.TopPanel.Controls.Add(this.CreateNote);
             this.TopPanel.Controls.Add(this.DeleteNote);
@@ -84,23 +104,24 @@ namespace Better_Sticky_Notes {
             this.AntiFlickerButton.UseVisualStyleBackColor = false;
             this.AntiFlickerButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
-            // AdvancedTextEditing
+            // MinimiseNote
             // 
-            this.AdvancedTextEditing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.AdvancedTextEditing.Dock = System.Windows.Forms.DockStyle.Left;
-            this.AdvancedTextEditing.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.AdvancedTextEditing.FlatAppearance.BorderSize = 0;
-            this.AdvancedTextEditing.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.AdvancedTextEditing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.AdvancedTextEditing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AdvancedTextEditing.Font = new System.Drawing.Font("Corbel", 16F);
-            this.AdvancedTextEditing.Location = new System.Drawing.Point(50, 0);
-            this.AdvancedTextEditing.Name = "AdvancedTextEditing";
-            this.AdvancedTextEditing.Size = new System.Drawing.Size(50, 50);
-            this.AdvancedTextEditing.TabIndex = 4;
-            this.AdvancedTextEditing.Text = "֎";
-            this.AdvancedTextEditing.UseVisualStyleBackColor = false;
-            this.AdvancedTextEditing.Click += new System.EventHandler(this.StartAdvTextEditing);
+            this.MinimiseNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.MinimiseNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.MinimiseNote.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.MinimiseNote.FlatAppearance.BorderSize = 0;
+            this.MinimiseNote.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.MinimiseNote.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.MinimiseNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MinimiseNote.Font = new System.Drawing.Font("Corbel", 16F);
+            this.MinimiseNote.Location = new System.Drawing.Point(50, 0);
+            this.MinimiseNote.Name = "MinimiseNote";
+            this.MinimiseNote.Size = new System.Drawing.Size(50, 50);
+            this.MinimiseNote.TabIndex = 4;
+            this.MinimiseNote.Text = "🞃";
+            this.MinimiseNote.UseVisualStyleBackColor = false;
+            this.MinimiseNote.Visible = false;
+            this.MinimiseNote.Click += new System.EventHandler(this.Minimise);
             // 
             // CycleTheme
             // 
@@ -163,9 +184,9 @@ namespace Better_Sticky_Notes {
             this.NoteText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NoteText.Font = new System.Drawing.Font("Corbel", 14F);
             this.NoteText.ForeColor = System.Drawing.Color.White;
-            this.NoteText.Location = new System.Drawing.Point(0, 50);
+            this.NoteText.Location = new System.Drawing.Point(0, 100);
             this.NoteText.Name = "NoteText";
-            this.NoteText.Size = new System.Drawing.Size(243, 193);
+            this.NoteText.Size = new System.Drawing.Size(243, 143);
             this.NoteText.TabIndex = 1;
             this.NoteText.Text = "";
             this.NoteText.SelectionChanged += new System.EventHandler(this.NoteText_SelectionChanged);
@@ -177,12 +198,144 @@ namespace Better_Sticky_Notes {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ContentsPanel.Controls.Add(this.NoteText);
+            this.ContentsPanel.Controls.Add(this.TopSubPanel);
             this.ContentsPanel.Controls.Add(this.TopPanel);
             this.ContentsPanel.Controls.Add(this.SelectionEditor);
             this.ContentsPanel.Location = new System.Drawing.Point(3, 3);
             this.ContentsPanel.Name = "ContentsPanel";
             this.ContentsPanel.Size = new System.Drawing.Size(243, 293);
             this.ContentsPanel.TabIndex = 2;
+            // 
+            // TopSubPanel
+            // 
+            this.TopSubPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.TopSubPanel.Controls.Add(this.CustomTheme2);
+            this.TopSubPanel.Controls.Add(this.CustomTheme1);
+            this.TopSubPanel.Controls.Add(this.DividerPreset);
+            this.TopSubPanel.Controls.Add(this.Preset7);
+            this.TopSubPanel.Controls.Add(this.Preset6);
+            this.TopSubPanel.Controls.Add(this.Preset5);
+            this.TopSubPanel.Controls.Add(this.Preset4);
+            this.TopSubPanel.Controls.Add(this.Preset3);
+            this.TopSubPanel.Controls.Add(this.Preset2);
+            this.TopSubPanel.Controls.Add(this.Preset1);
+            this.TopSubPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TopSubPanel.Location = new System.Drawing.Point(0, 50);
+            this.TopSubPanel.Name = "TopSubPanel";
+            this.TopSubPanel.Size = new System.Drawing.Size(243, 50);
+            this.TopSubPanel.TabIndex = 3;
+            this.TopSubPanel.Visible = false;
+            // 
+            // CustomTheme2
+            // 
+            this.CustomTheme2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CustomTheme2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.CustomTheme2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CustomTheme2.Location = new System.Drawing.Point(190, 25);
+            this.CustomTheme2.Name = "CustomTheme2";
+            this.CustomTheme2.Size = new System.Drawing.Size(53, 25);
+            this.CustomTheme2.TabIndex = 8;
+            this.CustomTheme2.UseVisualStyleBackColor = true;
+            this.CustomTheme2.Click += new System.EventHandler(this.CustomThemeSet2);
+            // 
+            // CustomTheme1
+            // 
+            this.CustomTheme1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.CustomTheme1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.CustomTheme1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CustomTheme1.Location = new System.Drawing.Point(190, 0);
+            this.CustomTheme1.Name = "CustomTheme1";
+            this.CustomTheme1.Size = new System.Drawing.Size(53, 25);
+            this.CustomTheme1.TabIndex = 7;
+            this.CustomTheme1.UseVisualStyleBackColor = true;
+            this.CustomTheme1.Click += new System.EventHandler(this.CustomThemeSet1);
+            // 
+            // DividerPreset
+            // 
+            this.DividerPreset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.DividerPreset.Dock = System.Windows.Forms.DockStyle.Left;
+            this.DividerPreset.Location = new System.Drawing.Point(189, 0);
+            this.DividerPreset.Name = "DividerPreset";
+            this.DividerPreset.Size = new System.Drawing.Size(1, 50);
+            this.DividerPreset.TabIndex = 6;
+            this.DividerPreset.Visible = false;
+            // 
+            // Preset7
+            // 
+            this.Preset7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset7.Location = new System.Drawing.Point(162, 0);
+            this.Preset7.Name = "Preset7";
+            this.Preset7.Size = new System.Drawing.Size(27, 50);
+            this.Preset7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset7.TabIndex = 9;
+            this.Preset7.TabStop = false;
+            this.Preset7.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset6
+            // 
+            this.Preset6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset6.Location = new System.Drawing.Point(135, 0);
+            this.Preset6.Name = "Preset6";
+            this.Preset6.Size = new System.Drawing.Size(27, 50);
+            this.Preset6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset6.TabIndex = 5;
+            this.Preset6.TabStop = false;
+            this.Preset6.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset5
+            // 
+            this.Preset5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset5.Location = new System.Drawing.Point(108, 0);
+            this.Preset5.Name = "Preset5";
+            this.Preset5.Size = new System.Drawing.Size(27, 50);
+            this.Preset5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset5.TabIndex = 4;
+            this.Preset5.TabStop = false;
+            this.Preset5.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset4
+            // 
+            this.Preset4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset4.Location = new System.Drawing.Point(81, 0);
+            this.Preset4.Name = "Preset4";
+            this.Preset4.Size = new System.Drawing.Size(27, 50);
+            this.Preset4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset4.TabIndex = 3;
+            this.Preset4.TabStop = false;
+            this.Preset4.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset3
+            // 
+            this.Preset3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset3.Location = new System.Drawing.Point(54, 0);
+            this.Preset3.Name = "Preset3";
+            this.Preset3.Size = new System.Drawing.Size(27, 50);
+            this.Preset3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset3.TabIndex = 2;
+            this.Preset3.TabStop = false;
+            this.Preset3.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset2
+            // 
+            this.Preset2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset2.Location = new System.Drawing.Point(27, 0);
+            this.Preset2.Name = "Preset2";
+            this.Preset2.Size = new System.Drawing.Size(27, 50);
+            this.Preset2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset2.TabIndex = 1;
+            this.Preset2.TabStop = false;
+            this.Preset2.Click += new System.EventHandler(this.PresetTheme);
+            // 
+            // Preset1
+            // 
+            this.Preset1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Preset1.Location = new System.Drawing.Point(0, 0);
+            this.Preset1.Name = "Preset1";
+            this.Preset1.Size = new System.Drawing.Size(27, 50);
+            this.Preset1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Preset1.TabIndex = 0;
+            this.Preset1.TabStop = false;
+            this.Preset1.Click += new System.EventHandler(this.PresetTheme);
             // 
             // SelectionEditor
             // 
@@ -358,6 +511,14 @@ namespace Better_Sticky_Notes {
             this.Resize += new System.EventHandler(this.NoteUpdated);
             this.TopPanel.ResumeLayout(false);
             this.ContentsPanel.ResumeLayout(false);
+            this.TopSubPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Preset7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Preset1)).EndInit();
             this.SelectionEditor.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -380,9 +541,20 @@ namespace Better_Sticky_Notes {
         private System.Windows.Forms.CheckBox SelectionStrikethrough;
         private System.Windows.Forms.CheckBox SelectionBulleted;
         private System.Windows.Forms.Button AntiFlickerButton;
-        private System.Windows.Forms.Button AdvancedTextEditing;
+        private System.Windows.Forms.Button MinimiseNote;
         private System.Windows.Forms.Panel SelectionColour;
         private System.Windows.Forms.Panel SelectionBackColour;
-        }
+        private System.Windows.Forms.Panel TopSubPanel;
+        private System.Windows.Forms.Button CustomTheme2;
+        private System.Windows.Forms.Button CustomTheme1;
+        private System.Windows.Forms.Panel DividerPreset;
+        private System.Windows.Forms.PictureBox Preset6;
+        private System.Windows.Forms.PictureBox Preset5;
+        private System.Windows.Forms.PictureBox Preset4;
+        private System.Windows.Forms.PictureBox Preset3;
+        private System.Windows.Forms.PictureBox Preset2;
+        private System.Windows.Forms.PictureBox Preset1;
+        private System.Windows.Forms.PictureBox Preset7;
+    }
     }
 
