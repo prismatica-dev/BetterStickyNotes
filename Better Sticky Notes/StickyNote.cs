@@ -365,7 +365,18 @@ namespace Better_Sticky_Notes {
 
         private void ToggleStyle(FontStyle Style) {
             FontStyle style = NoteText.SelectionFont.Style & ~Style;
-            if (SelectionBolded.Checked) style |= Style;
+
+            switch (Style) {
+                case FontStyle.Bold:
+                    if (SelectionBolded.Checked) style |= Style;
+                    break;
+                case FontStyle.Italic:
+                    if (SelectionItalic.Checked) style |= Style;
+                    break;
+                case FontStyle.Underline:
+                    if (SelectionUnderlined.Checked) style |= Style;
+                    break; }
+
             NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
             NoteText.Focus(); }
 
