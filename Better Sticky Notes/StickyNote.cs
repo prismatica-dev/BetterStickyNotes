@@ -19,7 +19,7 @@ namespace Better_Sticky_Notes {
     public partial class StickyNote : Form {
         // if u are forking the project set this to your fork so the auto-updater checks your repo!
         // also if in your releases you upload the binary as anything other than 'Better.Sticky.Notes.exe' it will fail to update (or if you have a tag that isn't a valid version)
-        private const string repo = "uDMBK/BetterStickyNotes";
+        private const string repo = "lily-software/BetterStickyNotes";
 
         public StickyNote(string args, bool primary) {
             PrimaryNote = primary;
@@ -356,32 +356,38 @@ namespace Better_Sticky_Notes {
             } catch {}}
 
         private void NoteText_SelectionChanged(object sender, EventArgs e) {
-            SelectionBolded.Checked = NoteText.SelectionFont.Bold;
-            SelectionItalic.Checked = NoteText.SelectionFont.Italic;
-            SelectionUnderlined.Checked = NoteText.SelectionFont.Underline;
-            SelectionStrikethrough.Checked = NoteText.SelectionFont.Strikeout;
-            SelectionBulleted.Checked = NoteText.SelectionBullet;
-            SelectionColour.BackColor = NoteText.SelectionColor; }
+            try {
+                if (NoteText.SelectionFont == null) return;
+                SelectionBolded.Checked = NoteText.SelectionFont.Bold;
+                SelectionItalic.Checked = NoteText.SelectionFont.Italic;
+                SelectionUnderlined.Checked = NoteText.SelectionFont.Underline;
+                SelectionStrikethrough.Checked = NoteText.SelectionFont.Strikeout;
+                SelectionBulleted.Checked = NoteText.SelectionBullet;
+                SelectionColour.BackColor = NoteText.SelectionColor; }
+            catch (Exception) { /* oopsie! selection was null! */ }}
 
         private void ToggleStyle(FontStyle Style) {
-            FontStyle style = NoteText.SelectionFont.Style & ~Style;
+            try {
+                if (NoteText.SelectionFont == null) return;
+                FontStyle style = NoteText.SelectionFont.Style & ~Style;
 
-            switch (Style) {
-                case FontStyle.Bold:
-                    if (SelectionBolded.Checked) style |= Style;
-                    break;
-                case FontStyle.Italic:
-                    if (SelectionItalic.Checked) style |= Style;
-                    break;
-                case FontStyle.Underline:
-                    if (SelectionUnderlined.Checked) style |= Style;
-                    break;
-                case FontStyle.Strikeout:
-                    if (SelectionStrikethrough.Checked) style |= Style;
-                    break; }
+                switch (Style) {
+                    case FontStyle.Bold:
+                        if (SelectionBolded.Checked) style |= Style;
+                        break;
+                    case FontStyle.Italic:
+                        if (SelectionItalic.Checked) style |= Style;
+                        break;
+                    case FontStyle.Underline:
+                        if (SelectionUnderlined.Checked) style |= Style;
+                        break;
+                    case FontStyle.Strikeout:
+                        if (SelectionStrikethrough.Checked) style |= Style;
+                        break; }
 
-            NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
-            NoteText.Focus(); }
+                NoteText.SelectionFont = new Font(NoteText.SelectionFont, style);
+                NoteText.Focus();
+            } catch (Exception) {}}
 
         private void ToggleBold(object sender, EventArgs e) => ToggleStyle(FontStyle.Bold);
         private void ToggleItalic(object sender, EventArgs e) => ToggleStyle(FontStyle.Italic);
