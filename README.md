@@ -1,10 +1,17 @@
-# Better Sticky Notes
-improved version of the default windows 10 sticky notes
-## [download the latest version here!](https://github.com/uDMBK/BetterStickyNotes/releases/latest)
+<div align="center">
+  <h1>/lily.software/ Better Sticky Notes</h1>
+  <i>An Improved FLOSS alternative to Windows 10 Sticky Notes</i><br>
+  <img src="https://img.shields.io/github/downloads/lily-software/BetterStickyNotes/total.svg?color=ff69b4&logoColor=white&labelColor=&style=for-the-badge"/>
+</div>
 
-# Improvements
+### ![download the latest version here!](https://github.com/lily-software/BetterStickyNotes/releases/latest)
+
+![Preview](https://user-images.githubusercontent.com/59503910/228222872-e3481e90-3e3f-4189-b995-eb184a9a1b65.png)
+
+# Features
 * Gradient Tabs
 * Smoother Animations
-* Open Source
-* No Login or Data Uploading (seriously microsoft's sticky notes has a massive terms of use and privacy policy)
-* Private (literally never accesses the internet except for once to the github api to check for updates and, if available, to download them)
+* Privacy-Focused
+* Auto-Updating
+* Free/Libre and Open Source
+* Extensive User Customisation
